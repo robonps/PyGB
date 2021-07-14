@@ -17,6 +17,8 @@ class Cpu:
     _SP=0
     _PC=0
 
+    # Set the memory
+    _mem = 0
 
     # Bsic function to print the regs
     def printreg(self):
@@ -142,6 +144,17 @@ class Cpu:
             "PC": self._get_PC
         }
         return registers[reg]()
+    
+    def __init__(self, mem):
+        _mem = mem
+        logging.debug("Setting")
+        self.set_reg_16("AF", 0x01)
+        self.set_reg_16("BC", 0x0013)
+        self.set_reg_16("DE", 0x00D8)
+        self.set_reg_16("HL", 0x014D)
+        self.set_reg_16("SP", 0xFFFE)
+        logging.debug("Default registers set")
+        self.printreg()
 
     def execute(self):
         #Fetch inst
@@ -150,13 +163,3 @@ class Cpu:
         #Increment PC
         #Set Flags(if needed)
         pass
-    
-    def __init__(self):
-        logging.debug("Setting")
-        self.set_reg_16("AF", 0b00000001)
-        self.set_reg_16("BC", 0x0013)
-        self.set_reg_16("DE", 0x00D8)
-        self.set_reg_16("HL", 0x014D)
-        self.set_reg_16("SP", 0xFFFE)
-        logging.debug("Default registers set")
-        self.printreg()

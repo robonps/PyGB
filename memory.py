@@ -9,7 +9,7 @@ class Memory:
             self.memory[i] = 0
 
     def load(self, data, offset):
-        logging.debug("Loading data to memory starting at {offset}")
+        logging.debug("Loading data to memory starting at {}".format(offset))
         for i in range(len(data)):
             self.memory[int(i+offset)] = data[i]
     
