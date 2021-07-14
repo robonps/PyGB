@@ -12,6 +12,12 @@ class Memory:
         logging.debug("Loading data to memory starting at {}".format(offset))
         for i in range(len(data)):
             self.memory[int(i+offset)] = data[i]
+
+    def read_byte(self, addr):
+        return self.memory[addr]
+
+    def read_16byte(self, addr):
+        return (self.memory[addr] | (self.memory[addr+1] << 8))
     
     def printmem(self, start="0000", end="FFFF", mode="hex"):
         if mode == "hex":

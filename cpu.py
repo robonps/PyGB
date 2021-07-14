@@ -1,4 +1,4 @@
-from instructions import instructions
+from opcodes import opcodes
 from utils import hex2int as h2i
 import logging
 class Cpu:
@@ -17,8 +17,7 @@ class Cpu:
     _SP=0
     _PC=0
 
-    # Set the memory
-    _mem = 0
+    _mem=0
 
     # Bsic function to print the regs
     def printreg(self):
@@ -145,8 +144,15 @@ class Cpu:
         }
         return registers[reg]()
     
+    # Instructions
+    def _LD_n_nn(self, args):
+        n = args[0]
+        nn = args[1]
+        self.set_reg_16(n, nn)
+
+
     def __init__(self, mem):
-        _mem = mem
+        self._mem = mem
         logging.debug("Setting")
         self.set_reg_16("AF", 0x01)
         self.set_reg_16("BC", 0x0013)
@@ -157,9 +163,21 @@ class Cpu:
         self.printreg()
 
     def execute(self):
-        #Fetch inst
-        #Decode
-        #Execute
-        #Increment PC
-        #Set Flags(if needed)
+        # Fetch inst
+        instruction = self._mem.read_byte(self._get_PC())
+        # Decode
+        cmd = opcodes[instruction]
+        # Evaluate instruction
+        args = []
+        if cmd.get("register", False):
+            args.append(cmd["register"])
+
+        if cmd.get("next_16", False):
+            args.append(self._mem.read_16byte(self._get_PC()+1))
+        elif cmd.get("next_8", False):
+            args.append(self._mem.read_byte(self._get_PC()+1))
+        # Execute
+        eval(cmd["fn"])(args)
+        # Increment PC
+        # Set Flags(if needed)
         pass
