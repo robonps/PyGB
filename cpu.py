@@ -48,6 +48,8 @@ class Cpu:
         self._H = val
     def _set_L(self, val):
         self._L = val
+    def _set_F(self, val):
+        self._F = val
 
     def _get_A(self):
         return self._A
@@ -63,6 +65,8 @@ class Cpu:
         return self._H
     def _get_L(self):
         return self._L
+    def _get_F(self):
+        return self._F
 
 
     # Functions to set and get 16 bit regs
@@ -106,7 +110,8 @@ class Cpu:
             "D": self._set_D,
             "E": self._set_E,
             "H": self._set_H,
-            "L": self._set_L
+            "L": self._set_L,
+            "F": self._set_F
         }
         registers[reg](val)
 
@@ -152,6 +157,7 @@ class Cpu:
             "H": 0b00100000,
             "C": 0b00010000
         }
+        self._set_F(self._get_F() & flags[flag])
 
     # Instructions
     def _LD_n_nn(self, args):
