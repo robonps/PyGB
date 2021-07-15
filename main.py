@@ -13,9 +13,11 @@ def init():
 init()
 cpu = Cpu(mem)
 def mainloop():
-    for i in range(1):
+    for i in range(2):
         cpu.printreg()
+        logging.debug("------------")
         cpu.execute()
         cpu.printreg()
+        logging.debug("Next Instruction")
 
 mainloop()

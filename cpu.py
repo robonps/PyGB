@@ -144,11 +144,24 @@ class Cpu:
         }
         return registers[reg]()
     
+    # Flags
+    def set_flag(self, flag):
+        flags = {
+            "Z": 0b10000000,
+            "N": 0b01000000,
+            "H": 0b00100000,
+            "C": 0b00010000
+        }
+
     # Instructions
     def _LD_n_nn(self, args):
         n = args[0]
         nn = args[1]
         self.set_reg_16(n, nn)
+    
+    def _XOR_n(self, args):
+        n = args[0]
+        self._set_A(self._get_A() ^ self.get_reg_8(n))
 
 
     def __init__(self, mem):
@@ -159,8 +172,8 @@ class Cpu:
         self.set_reg_16("DE", 0x00D8)
         self.set_reg_16("HL", 0x014D)
         self.set_reg_16("SP", 0xFFFE)
-        logging.debug("Default registers set")
         self.printreg()
+        logging.debug("Default registers set")
 
     def execute(self):
         # Fetch inst
@@ -179,5 +192,6 @@ class Cpu:
         # Execute
         eval(cmd["fn"])(args)
         # Increment PC
+        self._set_PC(self._get_PC() + cmd["PC"])
         # Set Flags(if needed)
         pass

@@ -6,5 +6,12 @@ opcodes={
         "cycles": 12,
         "flags": [],
         "PC": 3
+    },
+    0xAF: {
+        "fn": "self._XOR_n",
+        "register": "A",
+        "cycles": 12,
+        "flags": [],
+        "PC": 1
     }
 }
